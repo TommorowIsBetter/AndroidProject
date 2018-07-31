@@ -44,18 +44,16 @@ public class MyService extends AccessibilityService {
         int eventType = event.getEventType();
         //Log.d("evtype",AccessibilityEvent.eventTypeToString(eventType));
         switch (eventType) {
-            case(AccessibilityEvent.TYPE_VIEW_CLICKED):{
-                catchPage();
-                Record();
-                break;
-            }
             case(AccessibilityEvent.TYPE_WINDOW_CONTENT_CHANGED):{
-                break;
-            }
-            case(AccessibilityEvent.TYPE_WINDOW_STATE_CHANGED):{
+                Record();
+                hasRecorded = false;
                 break;
             }
             default: {
+                if(!hasRecorded){
+                    catchPage();
+                    hasRecorded = true;
+                }
                 Event event1 = new Event();
                 event1.setEventname(AccessibilityEvent.eventTypeToString(eventType));
                 Node source = new Node(event.getSource());
@@ -71,14 +69,6 @@ public class MyService extends AccessibilityService {
     }
 
     public void catchPage(){
-
-        try {
-            Thread.currentThread().sleep(2000);//阻断2秒,以便抓取整个界面，否则抓取不全
-        }catch (InterruptedException e)
-        {
-            e.printStackTrace();
-        }
-
         curpage = new Page();
         curpage.setPackagename(getPackageName());
         AccessibilityNodeInfo root = getRootInActiveWindow();
