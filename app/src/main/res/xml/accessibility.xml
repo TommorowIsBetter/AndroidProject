@@ -1,5 +1,5 @@
 <accessibility-service xmlns:android="http://schemas.android.com/apk/res/android"
-    android:packageNames="com.ss.android.article.news,com.tencent.reading,com.xunmeng.pinduoduo,com.sohu.newsclient,com.baycode.tianya,com.tmall.wireless,com.zhihu.android,com.zhihu.daily.android,com.justwayward.readerer,com.netease.pris"
+    android:packageNames="cn.amazon.mShop.android,com.cundong.izhihu,com.douban.frodo,com.sina.weibo,com.baycode.tianya,com.tmall.wireless,com.zhihu.android,com.zhihu.daily.android,com.justwayward.readerer,com.netease.pris"
     android:accessibilityEventTypes="typeAllMask"
     android:accessibilityFlags="flagDefault"
     android:accessibilityFeedbackType="feedbackSpoken"

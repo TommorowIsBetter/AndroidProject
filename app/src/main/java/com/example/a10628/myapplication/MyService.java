@@ -41,43 +41,44 @@ public class MyService extends AccessibilityService {
     //事件处理逻辑
     @Override
     public void onAccessibilityEvent(AccessibilityEvent event) {
-        int eventType = event.getEventType();
+        int eventType = event.getEventType();    //获取事件类型
         //Log.d("evtype",AccessibilityEvent.eventTypeToString(eventType));
         switch (eventType) {
-            case(AccessibilityEvent.TYPE_WINDOW_CONTENT_CHANGED):{
+            case(AccessibilityEvent.TYPE_WINDOW_CONTENT_CHANGED):{ //如果页面文本变化则存储
                 Record();
                 hasRecorded = false;
                 break;
             }
-            default: {
-                if(!hasRecorded){
-                    catchPage();
+            default: { //当不满足case的时候才会执行default，一旦执行上面的case语句就会在最后执行break，
+                //所以此时这里的default也就不会执行。
+                if(!hasRecorded){//当hasRecorded为false的时候执行catchPage()函数
+                    catchPage();   //设置page的packageName和nodes这两个属性
                     hasRecorded = true;
                 }
-                Event event1 = new Event();
-                event1.setEventname(AccessibilityEvent.eventTypeToString(eventType));
+                Event event1 = new Event();//设置event name和source(即发起控件)
+                event1.setEventname(AccessibilityEvent.eventTypeToString(eventType));//设置event name
                 Node source = new Node(event.getSource());
                 if (source != null)
-                    event1.setSource(source);
+                    event1.setSource(source);//设置event 的source属性
                 else
                     event1.setSource(null);
-                eventsList.add(event1);
+                eventsList.add(event1);//把事件添加到eventList里面去
                 break;
             }
         }
 
     }
 
-    public void catchPage(){
+    public void catchPage(){//设置page的packageName和nodes这两个属性
         curpage = new Page();
-        curpage.setPackagename(getPackageName());
+        curpage.setPackagename(getPackageName());//设置page的packageName
         AccessibilityNodeInfo root = getRootInActiveWindow();
         if(root == null){
             Log.i("page","null");
         }else {
-            recycle(root);
+            recycle(root);//通过递归的方式获取所有的结点的信息
         }
-        curpage.setNodes(nodeInfosList);
+        curpage.setNodes(nodeInfosList);//设置page的nodes
     }
 
     //记录页面信息
@@ -105,10 +106,11 @@ public class MyService extends AccessibilityService {
 
     }
 
-    //遍历节点信息
+    //遍历节点信息，然后进行保存到nodeInfoList中
     public void recycle(AccessibilityNodeInfo info) {
         if (info.getChildCount() == 0) {
-            nodeInfosList.add(new Node(info));
+            nodeInfosList.add(new Node(info));//这里的Node(info)已经通过初始化函数初始化过了，可以直接
+            //添加到nodeInfosList中去了
         } else {
             for (int i = 0; i < info.getChildCount(); i++) {
                 if(info.getChild(i)!=null){

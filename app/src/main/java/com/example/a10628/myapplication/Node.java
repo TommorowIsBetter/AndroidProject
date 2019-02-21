@@ -16,7 +16,8 @@ public class Node {
     Rect Bounds;//坐标
 
 
-    public Node(AccessibilityNodeInfo node){
+    public Node(AccessibilityNodeInfo node){ //通过获取到结点，然后对node进行初始化，给node的四个属性
+        //赋予值，但是这里的Bounds没有看出来怎么赋予的值
         Bounds = new Rect();
         node.getBoundsInScreen(Bounds);
         Classname = node.getClassName().toString();
