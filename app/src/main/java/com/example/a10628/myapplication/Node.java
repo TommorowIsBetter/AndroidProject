@@ -19,15 +19,17 @@ public class Node {
     public Node(AccessibilityNodeInfo node){ //通过获取到结点，然后对node进行初始化，给node的四个属性
         //赋予值，但是这里的Bounds没有看出来怎么赋予的值
         Bounds = new Rect();
-        node.getBoundsInScreen(Bounds);
-        Classname = node.getClassName().toString();
-        Packagename = node.getPackageName().toString();
-        if(node.getText() != null)
-            Text = node.getText().toString();
-        else if(node.getContentDescription() != null)    //后期添加部分
-            Text = node.getContentDescription().toString();
-        else
-            Text ="";
+        if (node != null){//防止空指针错误，加入这个判断后就可以多次录制不同的操作序列，而不需要重新启动APP。
+            node.getBoundsInScreen(Bounds);
+            Classname = node.getClassName().toString();
+            Packagename = node.getPackageName().toString();
+            if(node.getText() != null)
+                Text = node.getText().toString();
+            else if(node.getContentDescription() != null)    //后期添加部分
+                Text = node.getContentDescription().toString();
+            else
+                Text ="";
+        }
     }
 
     public String getPackagename() {
