@@ -171,7 +171,7 @@ public class MainActivity extends AppCompatActivity {
         if (!file.exists()){
             file.createNewFile();
         }
-        String mergeJson = JSON.toJSONString(thinkTimeBeanList);//把json实体类集合转换为字符串
+        String mergeJson = JSON.toJSONString(thinkTimeBeanList,true);//把json实体类集合转换为字符串
         FileUtils.writeStringToFile(file, mergeJson, "utf-8");//把字符串写入到文件中
     }
 
