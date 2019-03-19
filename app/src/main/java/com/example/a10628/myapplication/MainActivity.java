@@ -130,6 +130,13 @@ public class MainActivity extends AppCompatActivity {
     public boolean checkFile(){
         String filePath = sdCardDir.toString() + "/ThinkTime";
         File baseFile = new File(filePath);//这里可以填写文件路径，而不只是具体的某个文件
+        try{                              //如果文件不存在，就新建它，否则会出现空指针错误，系统宕掉
+            if(!baseFile.exists()){
+                baseFile.mkdir();
+            }
+        }catch(Exception e){
+            e.printStackTrace();
+        }
         File[] fileList = baseFile.listFiles();//把文件下的所有文件都放到list列表中去
         if(fileList.length == 0)
             return true;
