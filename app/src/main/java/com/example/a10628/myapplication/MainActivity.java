@@ -47,7 +47,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
-    //新建一个文件夹的函数
+    // 新建一个文件夹的函数
     public void newDirectory(String _path, String dirName){
         File file = new File(_path + "/" + dirName);
         try{
@@ -61,7 +61,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
-    //移动某个文件夹下的所有文件到指定文件夹下，并且合并为一个json文件
+    // 移动某个文件夹下的所有文件到指定文件夹下，并且合并为一个json文件
     public void moveFileFolder(String oldPath, String name){
         try{
            MergeJsons(oldPath, sdCardDir.toString() + "/TestDir/" + name, name);
@@ -69,11 +69,12 @@ public class MainActivity extends AppCompatActivity {
         {
             e.printStackTrace();
         }
-        showDialogSuccess();//移动文件之后，提出成功提示！
+        // 移动文件之后，提出成功提示！
+        showDialogSuccess();
     }
 
 
-    //点击button键在界面弹出提示
+    // 点击button键在界面弹出提示
     public void showDialog(){
         AlertDialog.Builder builder=new AlertDialog.Builder(this);
         builder.setTitle("温馨提示");
@@ -91,7 +92,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
-    //点击button键在界面弹出提示
+    // 点击button键在界面弹出提示
     public void showDialogSuccess(){
         AlertDialog.Builder builder=new AlertDialog.Builder(this);
         builder.setTitle("温馨提示");
@@ -109,18 +110,21 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
-    //检查指定文件夹下是否有文件
+    // 检查指定文件夹下是否有文件
     public boolean checkFile(){
         String filePath = sdCardDir.toString() + "/ThinkTime";
-        File baseFile = new File(filePath);//这里可以填写文件路径，而不只是具体的某个文件
-        try{                              //如果文件不存在，就新建它，否则会出现空指针错误，系统宕掉
+        // 这里可以填写文件路径，而不只是具体的某个文件
+        File baseFile = new File(filePath);
+        try{
+            // 如果文件不存在，就新建它，否则会出现空指针错误，系统宕掉
             if(!baseFile.exists()){
                 baseFile.mkdir();
             }
         }catch(Exception e){
             e.printStackTrace();
         }
-        File[] fileList = baseFile.listFiles();//把文件下的所有文件都放到list列表中去
+        // 把文件下的所有文件都放到list列表中去
+        File[] fileList = baseFile.listFiles();
         if(fileList.length == 0)
             return true;
         else
@@ -137,17 +141,24 @@ public class MainActivity extends AppCompatActivity {
      * @Description 把一个文件夹下的所有json文件变成一个json文件，然后存储在指定的文件夹中。
      */
     public static void MergeJsons(String filepath, String aimPath, String name) throws IOException{
-        File baseFile = new File(filepath); //File类型可以是文件也可以是文件夹
-        File[] fileList = baseFile.listFiles(); //将该目录下的所有文件放置在一个File类型的数组中
-        List<ThinkTimeBean> thinkTimeBeanList = new ArrayList<ThinkTimeBean>();//建立一个结合用于存放待会获取json的对象
-        if (fileList == null){    //空指针进行处理
+        // File类型可以是文件也可以是文件夹
+        File baseFile = new File(filepath);
+        // 将该目录下的所有文件放置在一个File类型的数组中
+        File[] fileList = baseFile.listFiles();
+        // 建立一个结合用于存放待会获取json的对象
+        List<ThinkTimeBean> thinkTimeBeanList = new ArrayList<ThinkTimeBean>();
+        // 空指针进行处理
+        if (fileList == null){
             System.out.println("filepath doesn't exist!");
         }else {
             for (int i = 0; i < fileList.length; i++) {
-                String str = FileUtils.readFileToString(fileList[i], "utf-8");//把json文件转换为字符串
+                // 把json文件转换为字符串
+                String str = FileUtils.readFileToString(fileList[i], "utf-8");
                 try{
-                    ThinkTimeBean thinkTimeBean = JSON.parseObject(str, ThinkTimeBean.class);//把字符串转换为实体类
-                    thinkTimeBeanList.add(thinkTimeBean);//json实体类加入到集合中
+                    // 把字符串转换为实体类
+                    ThinkTimeBean thinkTimeBean = JSON.parseObject(str, ThinkTimeBean.class);
+                    // json实体类加入到集合中
+                    thinkTimeBeanList.add(thinkTimeBean);
                 }catch(Exception e){
                     System.out.println("the format of file is wrong!");
                 }
@@ -161,12 +172,14 @@ public class MainActivity extends AppCompatActivity {
         if (!file.exists()){
             file.createNewFile();
         }
-        String mergeJson = JSON.toJSONString(thinkTimeBeanList,true);//把json实体类集合转换为字符串
-        FileUtils.writeStringToFile(file, mergeJson, "utf-8");//把字符串写入到文件中
+        // 把json实体类集合转换为字符串
+        String mergeJson = JSON.toJSONString(thinkTimeBeanList,true);
+        // 把字符串写入到文件中
+        FileUtils.writeStringToFile(file, mergeJson, "utf-8");
     }
 
 
-    //点击button键在界面弹出提示
+    // 点击button键在界面弹出提示
     public void showDialogBackupSuccess(){
         AlertDialog.Builder builder=new AlertDialog.Builder(this);
         builder.setTitle("温馨提示");
@@ -184,15 +197,16 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
-    //移动某个文件夹下的所有文件到备份文件夹
+    // 移动某个文件夹下的所有文件到备份文件夹
     public void moveFileToBackup(String oldPath, String newPath){
-        newDirectory(sdCardDir.toString() + "/" + "TestDirBackup", newPath);//先新建一个文件夹，
-        //待会把文件移动到这个新建的文件夹
+        // 先新建一个文件夹待会把文件移动到这个新建的文件夹
+        newDirectory(sdCardDir.toString() + "/" + "TestDirBackup", newPath);
         try{
-            File baseFile = new File(oldPath);//这里可以填写文件路径，而不只是具体的某个文件
-            File[] fileList = baseFile.listFiles();//把文件下的所有文件都放到list列表中去
+            //这里可以填写文件路径，而不只是具体的某个文件把文件下的所有文件都放到list列表中去
+            File baseFile = new File(oldPath);
+            File[] fileList = baseFile.listFiles();
             for (int i = 0; i < fileList.length; i++){
-                //下面一条是移动函数代码
+                // 下面一条是移动函数代码
                 if( fileList[i].renameTo(new File(sdCardDir.toString() + "/TestDirBackup" + "/" + newPath + "/" + fileList[i].getName()))){
                     System.out.println("move successful.");
                 }
@@ -201,7 +215,8 @@ public class MainActivity extends AppCompatActivity {
         {
             e.printStackTrace();
         }
-        showDialogBackupSuccess();//备份文件之后，提出成功提示！
+        // 备份文件之后，提出成功提示！
+        showDialogBackupSuccess();
     }
 
 
@@ -226,7 +241,7 @@ public class MainActivity extends AppCompatActivity {
     };
 
 
-    //persmission method.
+    // permission method.
     public static void verifyStoragePermissions(Activity activity) {
         // Check if we have read or write permission
         int writePermission = ActivityCompat.checkSelfPermission(activity, Manifest.permission.WRITE_EXTERNAL_STORAGE);
