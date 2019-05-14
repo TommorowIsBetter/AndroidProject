@@ -2,65 +2,48 @@ package com.example.a10628.myapplication;
 
 import android.Manifest;
 import android.app.Activity;
-import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.drawable.ColorDrawable;
-import android.media.projection.MediaProjectionManager;
-import android.os.Build;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
-import android.support.v4.app.ActivityCompat;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
-import android.view.View;
-import android.view.Window;
-import android.widget.Toast;
-import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
-import java.io.File;
 import android.os.Environment;
+import android.support.v4.app.ActivityCompat;
+import android.support.v7.app.AlertDialog;
+import android.support.v7.app.AppCompatActivity;
+import android.view.Window;
+import com.alibaba.fastjson.JSON;
+import org.apache.commons.io.FileUtils;
 import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
-import android.support.v7.app.AlertDialog;
-import android.content.DialogInterface;
-import android.support.v7.app.AlertDialog;
-import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
-import android.view.View;
-import android.widget.Button;
-
-import org.apache.commons.io.FileUtils;
-import com.alibaba.fastjson.JSON;
+import java.util.List;
 public class MainActivity extends AppCompatActivity {
     File sdCardDir = Environment.getExternalStorageDirectory();
 
-    //页面点击函数业务逻辑
+    // 页面点击函数业务逻辑
     public void onClick(android.view.View view){
         if(checkFile())
         {
             showDialog();
             return;
         }
-        newDirectory(sdCardDir.toString(), "TestDir");//首先先建一个TestDir文件夹
-        newDirectory(sdCardDir.toString(), "TestDirBackup");//首先先建一个TestDirBackup文件夹
-        Date date = new Date();//这里目的是将当前时间转换为字符串，然后为后面建立文件夹
+        // 首先先建一个TestDir文件夹
+        newDirectory(sdCardDir.toString(), "TestDir");
+        // 首先先建一个TestDirBackup文件夹
+        newDirectory(sdCardDir.toString(), "TestDirBackup");
+        Date date = new Date();
+        // 这里目的是将当前时间转换为字符串，然后为后面建立文件夹
         DateFormat format = new SimpleDateFormat("yyyyMMddHHmmss");
         String now = format.format(date);
-        moveFileFolder(sdCardDir.toString()+"/ThinkTime", now);//把原先的文件夹里面的所有
-        //文件移动到新的文件夹中去,并且把所有json文件合并为一个json文件
-        moveFileToBackup(sdCardDir.toString()+"/ThinkTime", now);//把/ThinkTime文件夹下
-        //的所有文件移到一个备份文件夹中去。让ThinkTime文件夹准备录制下次的内容，本来想通过删除/thinkTime
-        //文件夹下的内容但是没有删除成功，只能通过移除操作代替。
+        // 把原先的文件夹里面的所有文件移动到新的文件夹中去,并且把所有json文件合并为一个json文件
+        moveFileFolder(sdCardDir.toString()+"/ThinkTime", now);
+        // 把/ThinkTime文件夹下的所有文件移到一个备份文件夹中去。让ThinkTime文件夹准备录制下次的内容，
+        // 本来想通过删除/thinkTime文件夹下的内容但是没有删除成功，只能通过移除操作代替
+        moveFileToBackup(sdCardDir.toString()+"/ThinkTime", now);
     }
 
 

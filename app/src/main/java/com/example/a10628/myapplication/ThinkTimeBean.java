@@ -1,12 +1,10 @@
 package com.example.a10628.myapplication;
 
 import java.util.List;
-//json对象
+// json对象
 @lombok.NoArgsConstructor
 @lombok.Data
 public class ThinkTimeBean {
-
-
 
     private int height;
     private int hovertime;

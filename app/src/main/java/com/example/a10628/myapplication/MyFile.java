@@ -14,14 +14,11 @@ import java.util.UUID;
 /**
  * Created by 10628 on 2018/3/16.
  */
-//文件操作类
+// 文件操作类
 public class MyFile {
-
     static File sdCardDir = Environment.getExternalStorageDirectory();
-
     static File outDirectory = new File(sdCardDir,"ThinkTime");
-
-    //保存记录
+    // 保存记录
     public static void SaveRecord(Page page,String filename){
 
         if(!outDirectory.exists()){
@@ -51,8 +48,6 @@ public class MyFile {
         } catch (IOException e) {
             e.printStackTrace();
         }
-
-
     }
 
 }

@@ -1,25 +1,10 @@
 package com.example.a10628.myapplication;
 
-import	android.accessibilityservice.AccessibilityService;
-import android.accessibilityservice.AccessibilityServiceInfo;
-import android.content.Intent;
-import android.graphics.Rect;
-import android.os.Environment;
-import android.support.annotation.NonNull;
+import android.accessibilityservice.AccessibilityService;
 import android.util.Log;
 import android.view.accessibility.AccessibilityEvent;
 import android.view.accessibility.AccessibilityNodeInfo;
-
-import java.io.File;
-import java.io.FileOutputStream;
-import java.util.Collection;
-import java.util.Iterator;
 import java.util.LinkedList;
-import java.util.List;
-import java.util.ListIterator;
-import java.util.UUID;
-
-import static android.content.ContentValues.TAG;
 
 
 /**
@@ -27,42 +12,43 @@ import static android.content.ContentValues.TAG;
  */
 
 public class MyService extends AccessibilityService {
-
     long time_counter = System.currentTimeMillis();
-
     static LinkedList<Event> eventsList = new LinkedList<>();
-
     static LinkedList<Node> nodeInfosList = new LinkedList<>();
-
     boolean hasRecorded = false;
-
     Page curpage = new Page();
-
-    //事件处理逻辑
+    // 事件处理逻辑
     @Override
     public void onAccessibilityEvent(AccessibilityEvent event) {
-        int eventType = event.getEventType();    //获取事件类型
-        //Log.d("evtype",AccessibilityEvent.eventTypeToString(eventType));
+        // 获取事件类型
+        int eventType = event.getEventType();
         switch (eventType) {
-            case(AccessibilityEvent.TYPE_WINDOW_CONTENT_CHANGED):{ //如果页面文本变化则存储
+            // 如果页面文本变化则存储
+            case(AccessibilityEvent.TYPE_WINDOW_CONTENT_CHANGED):{
                 Record();
                 hasRecorded = false;
                 break;
             }
-            default: { //当不满足case的时候才会执行default，一旦执行上面的case语句就会在最后执行break，
-                //所以此时这里的default也就不会执行。
-                if(!hasRecorded){//当hasRecorded为false的时候执行catchPage()函数
-                    catchPage();   //设置page的packageName和nodes这两个属性
+            default: {
+                /*当不满足case的时候才会执行default，一旦执行上面的case语句就会在最后执行break，所以
+                此时这里的default也就不会执行。*/
+                if(!hasRecorded){
+                    // 当hasRecorded为false的时候执行catchPage()函数,设置page的packageName和nodes这两个属性
+                    catchPage();
                     hasRecorded = true;
                 }
-                Event event1 = new Event();//设置event name和source(即发起控件)
-                event1.setEventname(AccessibilityEvent.eventTypeToString(eventType));//设置event name
+                // 设置event name和source(即发起控件)
+                Event event1 = new Event();
+                // 设置event name
+                event1.setEventname(AccessibilityEvent.eventTypeToString(eventType));
                 Node source = new Node(event.getSource());
                 if (source != null)
-                    event1.setSource(source);//设置event 的source属性
+                    // 设置event 的source属性
+                    event1.setSource(source);
                 else
                     event1.setSource(null);
-                eventsList.add(event1);//把事件添加到eventList里面去
+                // 把事件添加到eventList里面去
+                eventsList.add(event1);
                 break;
             }
         }
