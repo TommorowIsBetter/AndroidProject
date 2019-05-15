@@ -16,7 +16,7 @@ public class MyService extends AccessibilityService {
     static LinkedList<Event> eventsList = new LinkedList<>();
     static LinkedList<Node> nodeInfosList = new LinkedList<>();
     boolean hasRecorded = false;
-    Page curpage = new Page();
+    Page curpage;
     // 事件处理逻辑
     @Override
     public void onAccessibilityEvent(AccessibilityEvent event) {
@@ -55,19 +55,23 @@ public class MyService extends AccessibilityService {
 
     }
 
-    public void catchPage(){//设置page的packageName和nodes这两个属性
+    // 设置page的packageName和nodes这两个属性
+    public void catchPage(){
         curpage = new Page();
-        curpage.setPackagename(getPackageName());//设置page的packageName
+        // 设置page的packageName
+        curpage.setPackagename(getPackageName());
         AccessibilityNodeInfo root = getRootInActiveWindow();
         if(root == null){
             Log.i("page","null");
         }else {
-            recycle(root);//通过递归的方式获取所有的结点的信息
+            // 通过递归的方式获取所有的结点的信息
+            recycle(root);
         }
-        curpage.setNodes(nodeInfosList);//设置page的nodes
+        // 设置page的nodes
+        curpage.setNodes(nodeInfosList);
     }
 
-    //记录页面信息
+    // 记录页面信息
     public void Record(){
 
         if(eventsList.size() == 0 || System.currentTimeMillis() - time_counter <= 1000){
@@ -78,13 +82,8 @@ public class MyService extends AccessibilityService {
         }
         curpage.setHovertime(System.currentTimeMillis() - time_counter);
         curpage.setEvents(eventsList);
-           /* UUID uuid = UUID.randomUUID();
-            //保存至文件
-            MyFile.SaveRecord(curpage, uuid.toString());*/
         String now = String.valueOf(System.currentTimeMillis());
         MyFile.SaveRecord(curpage,now);
-
-
         nodeInfosList.clear();
         eventsList.clear();
         time_counter = System.currentTimeMillis();
@@ -92,11 +91,11 @@ public class MyService extends AccessibilityService {
 
     }
 
-    //遍历节点信息，然后进行保存到nodeInfoList中
+    // 遍历节点信息，然后进行保存到nodeInfoList中
     public void recycle(AccessibilityNodeInfo info) {
         if (info.getChildCount() == 0) {
-            nodeInfosList.add(new Node(info));//这里的Node(info)已经通过初始化函数初始化过了，可以直接
-            //添加到nodeInfosList中去了
+            // 这里的Node(info)已经通过初始化函数初始化过了，可以直接添加到nodeInfosList中去了
+            nodeInfosList.add(new Node(info));
         } else {
             for (int i = 0; i < info.getChildCount(); i++) {
                 if(info.getChild(i)!=null){
