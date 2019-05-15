@@ -35,34 +35,42 @@ public class Node {
     }
 
     public String getPackagename() {
+
         return Packagename;
     }
 
     public void setPackagename(String packagename) {
+
         Packagename = packagename;
     }
 
     public String getClassname() {
+
         return Classname;
     }
 
     public void setClassname(String classname) {
+
         Classname = classname;
     }
 
     public String getText() {
+
         return Text;
     }
 
     public void setText(String text) {
+
         Text = text;
     }
 
     public Rect getBounds() {
+
         return Bounds;
     }
 
     public void setBounds(Rect bounds) {
+
         Bounds = bounds;
     }
 }
