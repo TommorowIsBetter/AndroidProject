@@ -23,7 +23,7 @@ public class MyService extends AccessibilityService {
         // 获取事件类型
         int eventType = event.getEventType();
         switch (eventType) {
-            // 如果页面文本变化则存储
+            // 如果页面文本变化则存储:窗口的内容发生变化，或者更具体的子树根布局变化事件
             case(AccessibilityEvent.TYPE_WINDOW_CONTENT_CHANGED):{
                 Record();
                 hasRecorded = false;
